@@ -1,0 +1,14 @@
+dataset:
+  name: PDE_KS
+model:
+  batch_size: 128
+  epochs: 50
+  gradient_clip_val: 1.0
+  hidden_state_size: 30
+  log_every_n_steps: 1
+  lr: 0.001
+  model: ode-lstm
+  name: ode-lstm
+  seed: 0
+  seq_length: 30
+  solver: fixed_rk4
