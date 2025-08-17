@@ -6,16 +6,16 @@ To set up the environment, run:
 ```bash
 pyenv install 3.11.11
 pyenv local 3.11.11
-python -m venv venv
-source venv/bin/activate
+python -m venv ~/.virtualenvs/odelstms
+source ~/.virtualenvs/odelstms/bin/activate
 pip install -r requirements.txt
 cd ../../
 pip install -e .[all]
 ```
 
 Hyperparameter optimization:
-- `python optimize_parameters.py tuning_config/<config file>`
-- `python optimize_parameters.py tuning_config/<config file>`
+- `python optimize_parameters.py --config-path tuning_config/<config file>`
+- `python optimize_parameters.py --config-path tuning_config/<config file>`
 
 Final configuration files after optimization:
 - `python run.py ctf_config/<config file>`
