@@ -20,8 +20,8 @@ model:
   epochs: 200
   gradient_clip_val: 1.0
   model: lstm
-  n_trials: 999999999
-  name: spacetime
+  n_trials: 100
+  name: lstm
   seed: 0
   solver: fixed_rk4
   train_split: 0.8

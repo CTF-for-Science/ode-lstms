@@ -7,12 +7,13 @@ with open(config_path, 'r') as f:
 print(hp_config)
 
 for model in ['ode-lstm', 'lstm']:
-    for dataset in ['Lorenz_Official', "KS_Official"]:
+    for dataset in ['Lorenz_Official', "KS_Official", "seismo"]:
         for pair_id in range(1,9+1):
 
             # Fill data
             hp_config['dataset']['name'] = dataset
             hp_config['dataset']['pair_id'] = [pair_id]
+            hp_config['model']['name'] = model
             hp_config['model']['model'] = model
             hp_config['hyperparameters']['lr']['lower_bound'] = 0.00001
             hp_config['hyperparameters']['lr']['upper_bound'] = 0.01
@@ -33,7 +34,7 @@ for model in ['ode-lstm', 'lstm']:
                 hp_config['hyperparameters']['seq_length']['upper_bound'] = 512
                 hp_config['model']['batch_size'] = 128
 
-            if dataset in ['ODE_Lorenz']:
+            if dataset in ['ODE_Lorenz', 'seismo']:
                 hp_config['hyperparameters']['hidden_state_size']['lower_bound'] = 3
                 hp_config['hyperparameters']['hidden_state_size']['upper_bound'] = 32
             else:

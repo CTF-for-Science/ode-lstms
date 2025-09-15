@@ -16,7 +16,7 @@ file_dir = Path(__file__).parent
 
 def main(config_path: str) -> None:
     """
-    Main function to run the spacetime model with specified config file.
+    Main function to run the ode-lstms model with specified config file.
 
     Loads configuration and prepares to call the model.
 

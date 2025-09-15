@@ -16,7 +16,7 @@ file_dir = Path(__file__).parent
 
 def main(config_path: str) -> None:
     """
-    Main function to run the spacetime model on specified sub-datasets.
+    Main function to run the ode-lstm model on specified sub-datasets.
 
     Loads configuration, parses pair_ids, initializes the model, generates predictions,
     evaluates them, and saves results for each sub-dataset under a batch identifier.

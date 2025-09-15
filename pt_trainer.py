@@ -71,7 +71,7 @@ ode_lstm.eval()
 
 # Generate reconstructions
 if args.pair_id in [2, 4]:
-    # Get input data to initialize spacetime
+    # Get input data to initialize ode-lstms
     if args.validation:
         train_mats, _, init_data = load_validation_dataset(args.dataset, args.pair_id, transpose=True)
         output_timesteps = get_validation_prediction_timesteps(args.dataset, args.pair_id).shape[0]
@@ -107,7 +107,7 @@ if args.pair_id in [2, 4]:
 
 # Generate forecasts
 else:
-    # Get input data to initialize spacetime
+    # Get input data to initialize ode-lstms
     if args.validation:
         train_mats, _, init_mat = load_validation_dataset(args.dataset, args.pair_id, transpose=True)
         if args.pair_id in [8,9]:
