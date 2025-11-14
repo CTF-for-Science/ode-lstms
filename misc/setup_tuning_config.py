@@ -1,13 +1,13 @@
 from pathlib import Path
 import yaml
 
-config_path = Path(__file__).parent.parent / 'tuning_config' / 'config_lstm_Lorenz_Official_1.yaml'
+config_path = Path(__file__).parent.parent / 'tuning_config' / 'config_lstm_ocean_das_1.yaml'
 with open(config_path, 'r') as f:
     hp_config = yaml.safe_load(f)
 print(hp_config)
 
 for model in ['ode-lstm', 'lstm']:
-    for dataset in ['Lorenz_Official', "KS_Official", "seismo"]:
+    for dataset in ['ocean_das']:
         for pair_id in range(1,9+1):
 
             # Fill data
@@ -34,7 +34,7 @@ for model in ['ode-lstm', 'lstm']:
                 hp_config['hyperparameters']['seq_length']['upper_bound'] = 512
                 hp_config['model']['batch_size'] = 128
 
-            if dataset in ['ODE_Lorenz', 'seismo']:
+            if dataset in ['ODE_Lorenz', 'seismo', 'ocean_das']:
                 hp_config['hyperparameters']['hidden_state_size']['lower_bound'] = 3
                 hp_config['hyperparameters']['hidden_state_size']['upper_bound'] = 32
             else:
