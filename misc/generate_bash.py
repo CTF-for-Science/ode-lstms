@@ -1,6 +1,7 @@
 from pathlib import Path
 
 top_dir = Path(__file__).parent.parent
+pkg_dir = Path(__file__).parent.parent.parent.parent
 
 bash_template_0 = \
 """\
@@ -44,7 +45,8 @@ for file in bash_dir.glob('*.sh'):
     file.unlink()
 
 device_counter = 0
-devices = ["cuda:0", "cuda:1"]
+skipped_counter = 0
+devices = ["cuda:1"]
 total_scripts = len(devices) * n_parallel
 
 # Initialize bash scripts for each device and parallel index
@@ -59,6 +61,12 @@ for device in devices:
 for dataset in datasets:
     for model in models:
         for pair_id in pair_ids:
+            # Check if results already exist
+            results_dir = pkg_dir / "results" / "tune_results" / model / dataset / f"pair_id_{pair_id}"
+            if list(results_dir.glob(f"**/optimal_params_{dataset}_{pair_id}.yaml")):
+                skipped_counter += 1
+                continue
+            
             config_path = top_dir / 'tuning_config' / f'config_{model}_{dataset}_{pair_id}.yaml'
 
             # Determine which device and parallel script to use based on counter
@@ -75,6 +83,8 @@ for dataset in datasets:
 
             # Add the command to the appropriate bash script
             bash_scripts[script_key] += cmd
+
+            print(f"Adding {model}/{dataset}/pair_id_{pair_id} to {script_key}")
 
             device_counter += 1
 
@@ -96,6 +106,13 @@ for script_key, script_content in bash_scripts.items():
     
     print(f"Generated bash script: {filepath}")
 
-print(f"Total jobs: {len(datasets) * len(models) * len(pair_ids)}")
+total_possible_jobs = len(datasets) * len(models) * len(pair_ids)
+jobs_added = device_counter
+print(f"\nTotal possible jobs: {total_possible_jobs}")
+print(f"Jobs skipped (already completed): {skipped_counter}")
+print(f"Jobs added to scripts: {jobs_added}")
 print(f"Total scripts generated: {total_scripts}")
-print(f"Jobs per script: ~{len(datasets) * len(models) * len(pair_ids) // total_scripts} (with remainder distributed)")
+if jobs_added > 0:
+    print(f"Jobs per script: ~{jobs_added // total_scripts} (with remainder distributed)")
+else:
+    print(f"Jobs per script: 0 (all jobs already completed)")
